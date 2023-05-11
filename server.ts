@@ -8,17 +8,17 @@ import db from "./config/db";
 // import models from "./models/index.js";
 import routes from "./routes/index.routes";
 
-const corsOptions = {
-  origin: ["http://localhost:3001"],
-  //update: or "origin: true," if you don't wanna add a specific one
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: ["http://localhost:3001"],
+//   //update: or "origin: true," if you don't wanna add a specific one
+//   credentials: true,
+// };
 
 // Configuración del servidor
 dotenv.config();
 const app = express();
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
