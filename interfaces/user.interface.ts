@@ -12,5 +12,5 @@ export interface user {
 export interface AuthRequest extends Request {
   user: {};
   body: any;
-  cookies: any;
+  cookies: { token: string };
 }
