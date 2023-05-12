@@ -94,7 +94,7 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "lax",
-          domain: ".onrender.com",
+          domain: ".vercel.app",
         });
         res.status(200).json({ payload, token });
       })
