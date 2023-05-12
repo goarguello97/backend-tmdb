@@ -94,6 +94,7 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "lax",
+          domain:"https://frontend-tmdb.vercel.app"
         });
         res.status(200).json({ payload, token });
       })
