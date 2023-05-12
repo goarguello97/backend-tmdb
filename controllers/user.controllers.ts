@@ -90,7 +90,11 @@ class UserController {
         };
 
         const token = generateToken(payload);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+          secure: true,
+          httpOnly: true,
+          sameSite: "lax",
+        });
         res.status(200).json({ payload, token });
       })
       .catch((error) => {
