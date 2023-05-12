@@ -94,7 +94,7 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "lax",
-          domain:"https://frontend-tmdb.vercel.app"
+          domain: "https://frontend-tmdb.vercel.app/sign-in",
         });
         res.status(200).json({ payload, token });
       })
