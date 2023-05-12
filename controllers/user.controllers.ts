@@ -94,7 +94,6 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "lax",
-          domain: ".vercel.app",
         });
         res.status(200).json({ payload, token });
       })
