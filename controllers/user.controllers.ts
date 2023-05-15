@@ -93,7 +93,7 @@ class UserController {
         res.cookie("token", token, {
           secure: true,
           httpOnly: true,
-          sameSite: "lax",
+          sameSite: "none",
           domain: ".frontend-tmdb.onrender.com",
           
         });
