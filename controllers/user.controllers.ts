@@ -204,7 +204,7 @@ class UserController {
   }
 
   static async logoutUser(req: Request, res: Response, next: NextFunction) {
-    res.clearCookie("token", { domain: "localhost", path: "/" });
+    res.clearCookie("token", { path: "/" });
     res.sendStatus(205);
   }
 }
