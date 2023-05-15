@@ -14,10 +14,11 @@ const corsOptions = {
   //   "http://localhost:3001",
   //   "https://frontend-tmdb.onrender.com/",
   // ],
-  origin: "https://frontend-tmdb.onrender.com",
+  origin: "http://localhost:3001",
   optionsSuccessStatus: 200,
   //update: or "origin: true," if you don't wanna add a specific one
   credentials: true,
+  exposedHeaders: ["set-cookie"],
 };
 
 // Configuración del servidor
