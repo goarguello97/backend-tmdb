@@ -9,11 +9,12 @@ import db from "./config/db";
 import routes from "./routes/index.routes";
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "https://frontend-tmdb.onrender.com/",
-  ],
+  // origin: [
+  //   "http://localhost:3000",
+  //   "http://localhost:3001",
+  //   "https://frontend-tmdb.onrender.com/",
+  // ],
+  origin: "https://frontend-tmdb.onrender.com",
   optionsSuccessStatus: 200,
   //update: or "origin: true," if you don't wanna add a specific one
   credentials: true,
