@@ -94,7 +94,7 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "none",
-          domain: ".frontend-tmdb.onrender.com",
+          domain: ".onrender.com",
         
         });
         res.status(200).json({ payload, token });
