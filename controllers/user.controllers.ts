@@ -95,7 +95,7 @@ class UserController {
           httpOnly: true,
           sameSite: "none",
           domain: ".frontend-tmdb.onrender.com",
-          
+        
         });
         res.status(200).json({ payload, token });
       })
