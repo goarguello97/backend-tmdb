@@ -94,8 +94,9 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "none",
-          origin:"onrender.com"
         });
+        res.cookie("__cf_bm")
+        res.cookie("_cfuvid")
         res.status(200).json({ payload, token });
       })
       .catch((error) => {
