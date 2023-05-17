@@ -94,6 +94,7 @@ class UserController {
           secure: true,
           httpOnly: true,
           sameSite: "none",
+          origin:"onrender.com"
         });
         res.status(200).json({ payload, token });
       })
