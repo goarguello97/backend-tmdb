@@ -95,8 +95,6 @@ class UserController {
           httpOnly: true,
           sameSite: "none",
         });
-        res.cookie("__cf_bm")
-        res.cookie("_cfuvid")
         res.status(200).json({ payload, token });
       })
       .catch((error) => {
