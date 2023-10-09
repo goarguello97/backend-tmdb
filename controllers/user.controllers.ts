@@ -78,10 +78,8 @@ class UserController {
     User.findOne({ where: { email } })
       .then((user) => {
         if (!user) throw new CustomError("Usuario no encontrado", 404);
-        // return res.status(401).json({ message: "No existe el usuario" });
         const isValid = user.validatePassword(password);
         if (!isValid) throw new CustomError("Credenciales inválidas", 401);
-        // return res.status(401).json({ message: "Contraseña incorrecta" });
         const payload = {
           email: user.email,
           name: user.name,
@@ -90,11 +88,6 @@ class UserController {
         };
 
         const token = generateToken(payload);
-        res.cookie("token", token, {
-          secure: true,
-          httpOnly: true,
-          sameSite: "none",
-        });
         res.status(200).json({ payload, token });
       })
       .catch((error) => {
@@ -199,13 +192,14 @@ class UserController {
     });
   }
 
-  static async secret(req: AuthRequest, res: Response, next: NextFunction) {
-    res.status(200).json(req.user);
-  }
-
-  static async logoutUser(req: Request, res: Response, next: NextFunction) {
-    res.clearCookie("token", { secure: true, sameSite: "none", path: "/" });
-    res.sendStatus(205);
+  static async secret(req: Request, res: Response) {
+    const { id } = req.user.user;
+    User.findByPk(id)
+      .then((user) => {
+        if (!user) throw new CustomError("Usuario no encontrado", 404);
+        res.status(200).json(req.user);
+      })
+      .catch((err) => res.status(500).json({ message: err.message }));
   }
 }
 
