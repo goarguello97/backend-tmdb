@@ -9,9 +9,11 @@ import db from "./config/db";
 import routes from "./routes/index.routes";
 
 const corsOptions = {
-  origin: ["http://localhost:3001"],
+  origin: "https://frontend-tmdb.onrender.com",
+  optionsSuccessStatus: 200,
   //update: or "origin: true," if you don't wanna add a specific one
   credentials: true,
+  exposedHeaders: ["set-cookie"],
 };
 
 // Configuración del servidor

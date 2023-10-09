@@ -7,7 +7,7 @@ function validateAuth(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const token = req.cookies.token;
     if (!token) throw new CustomError("No hay una sesion existente", 401);
-    const payload = validateToken(token);
+    const payload: any = validateToken(token);
     req.user = payload;
 
     if (payload) return next();

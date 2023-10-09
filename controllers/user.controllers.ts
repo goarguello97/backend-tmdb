@@ -90,7 +90,11 @@ class UserController {
         };
 
         const token = generateToken(payload);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+          secure: true,
+          httpOnly: true,
+          sameSite: "none",
+        });
         res.status(200).json({ payload, token });
       })
       .catch((error) => {
@@ -200,7 +204,7 @@ class UserController {
   }
 
   static async logoutUser(req: Request, res: Response, next: NextFunction) {
-    res.clearCookie("token", { domain: "localhost", path: "/" });
+    res.clearCookie("token", { secure: true, sameSite: "none", path: "/" });
     res.sendStatus(205);
   }
 }

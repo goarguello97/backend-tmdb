@@ -10,7 +10,7 @@ export function generateToken(payload: any) {
   return token;
 }
 
-export function validateToken(token: any) {
+export function validateToken(token: string) {
   return jwt.verify(token, SECRET);
 }
 
