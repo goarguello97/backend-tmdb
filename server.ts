@@ -23,6 +23,7 @@ const app = express();
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.append("Access-Control-Allow-Origin", [
     "https://frontend-tmdb-git-master-goarguello97.vercel.app/",
+    "https://frontend-tmdb-git-master-goarguello97.vercel.app/sign-in",
   ]);
   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.append("Access-Control-Allow-Headers", "Content-Type");
