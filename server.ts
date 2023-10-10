@@ -21,7 +21,9 @@ import routes from "./routes/index.routes";
 dotenv.config();
 const app = express();
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.append("Access-Control-Allow-Origin", ["*"]);
+  res.append("Access-Control-Allow-Origin", [
+    "https://frontend-tmdb-git-master-goarguello97.vercel.app/",
+  ]);
   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   // res.append("Access-Control-Allow-Headers", "Content-Type");
   next();
