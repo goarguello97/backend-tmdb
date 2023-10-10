@@ -25,7 +25,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     "https://frontend-tmdb-git-master-goarguello97.vercel.app/",
   ]);
   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  // res.append("Access-Control-Allow-Headers", "Content-Type");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 app.use(cookieParser());
