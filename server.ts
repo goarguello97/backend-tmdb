@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
 import morgan from "morgan";
-// import cors from "cors";
+import cors from "cors";
 import db from "./config/db";
 // import models from "./models/index.js";
 import routes from "./routes/index.routes";
@@ -20,17 +20,9 @@ import routes from "./routes/index.routes";
 // Configuración del servidor
 dotenv.config();
 const app = express();
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.append("Access-Control-Allow-Origin", [
-    "https://frontend-tmdb-git-master-goarguello97.vercel.app",
-    "https://frontend-tmdb-git-master-goarguello97.vercel.app/sign-in",
-  ]);
-  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.append("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+
 app.use(cookieParser());
-// app.use(cors(corsOptions));
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
