@@ -9,20 +9,19 @@ import db from "./config/db";
 // import models from "./models/index.js";
 import routes from "./routes/index.routes";
 
-// const corsOptions = {
-//   origin: process.env.ORIGIN as string,
-//   optionsSuccessStatus: 200,
-//   //update: or "origin: true," if you don't wanna add a specific one
-//   credentials: true,
-//   exposedHeaders: ["set-cookie"],
-// };
+const corsOptions = {
+  origin: true,
+  optionsSuccessStatus: 200,
+  //update: or "origin: true," if you don't wanna add a specific one
+  credentials: true,
+};
 
 // Configuración del servidor
 dotenv.config();
 const app = express();
 
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
