@@ -6,13 +6,11 @@ import path from "path";
 import morgan from "morgan";
 import cors from "cors";
 import db from "./config/db";
-// import models from "./models/index.js";
 import routes from "./routes/index.routes";
 
 const corsOptions = {
   origin: true,
   optionsSuccessStatus: 200,
-  //update: or "origin: true," if you don't wanna add a specific one
   credentials: true,
 };
 
