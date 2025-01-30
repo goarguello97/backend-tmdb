@@ -9,9 +9,14 @@ class ValidationErrors {
 }
 
 const validateFields = (req: Request, res: Response, next: NextFunction) => {
-  const { errors } = new ValidationErrors().service(req);
-  if (errors.length !== 0)
-    return res.status(400).json({ errores: errors.length, errors });
+  /* const { errors } = new ValidationErrors().service(req);
+  if (errors.length !== 0) */
+  const errors = validationResult(req); // Aquí se obtiene el resultado de la validación
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ errores: errors.array().length, errors: errors.array() });
+  }
   next();
 };
 

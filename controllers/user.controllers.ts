@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { AuthRequest } from "../interfaces/user.interface";
+import { NextFunction, Request, Response } from "express";
 import { generateToken } from "../config/token";
-import { User, Movie } from "../models/index";
 import CustomError from "../helpers/CustomError";
+import { AuthRequest } from "../interfaces/user.interface";
+import { Movie, User } from "../models/index";
 
 class UserController {
   static async getUsers(req: Request, res: Response, next: NextFunction) {
@@ -192,7 +192,7 @@ class UserController {
     });
   }
 
-  static async secret(req: Request, res: Response) {
+  static async secret(req: any, res: Response) {
     const { id } = req.user.user;
     User.findByPk(id)
       .then((user) => {
