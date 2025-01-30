@@ -79,7 +79,9 @@ Puedes levantar la aplicación utilizando Docker con el siguiente comando:
 
 ```bash
 docker-compose up --build
+```
 
+```
 ./
 ├── config/              # Configuración global de la aplicación
 ├── controllers/         # Controladores para manejar las peticiones HTTP
@@ -97,4 +99,5 @@ docker-compose up --build
 ├── .gitignore           # Archivos y carpetas a excluir del control de versiones
 ├── package.json         # Dependencias y configuración de npm
 ├── .env                 # Archivo de configuración con las variables de entorno
+
 ```
