@@ -81,6 +81,8 @@ Puedes levantar la aplicación utilizando Docker con el siguiente comando:
 docker-compose up --build
 ```
 
+## Estructura del proyecto
+
 ```
 ./
 ├── config/              # Configuración global de la aplicación
