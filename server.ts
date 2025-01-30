@@ -1,10 +1,8 @@
-import express from "express";
-import { NextFunction, Request, Response } from "express";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import path from "path";
-import morgan from "morgan";
 import cors from "cors";
+import dotenv from "dotenv";
+import express, { Request, Response } from "express";
+import morgan from "morgan";
 import db from "./config/db";
 import routes from "./routes/index.routes";
 
@@ -26,6 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.use("/api", routes);
+
+app.get("/api", (req: Request, res: Response) => {
+  res.json("Hello World");
+});
 
 const PORT = process.env.PORT || 3001;
 

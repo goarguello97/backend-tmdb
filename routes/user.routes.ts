@@ -1,8 +1,9 @@
 import express from "express";
-const router = express.Router();
 import { checkSchema } from "express-validator";
-import { user, login, del, update } from "../schemas/index";
 import UserControllers from "../controllers/user.controllers";
+import { validateAuth, validateFields } from "../middlewares/index";
+import { del, login, update, user } from "../schemas/index";
+const router = express.Router();
 const {
   getUsers,
   getUser,
@@ -13,7 +14,6 @@ const {
   updateUser,
   deleteUser,
 } = UserControllers;
-import { validateFields, validateAuth } from "../middlewares/index";
 
 router.get("/", getUsers);
 router.get("/user", getUser);
