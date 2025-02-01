@@ -10,7 +10,6 @@ import routes from "./routes/index.routes";
 import { swaggerOptions } from "./swaggerCofig";
 
 const PORT = process.env.PORT || 3001;
-const { DB_HOST } = process.env;
 
 const corsOptions = {
   origin: true,
@@ -31,7 +30,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// Si el entorno es de desarrollo se puede visualizar la documentacion con swagger.
+if (process.env.NODE_ENV == "DEV") {
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+}
 
 app.use("/api", routes);
 
