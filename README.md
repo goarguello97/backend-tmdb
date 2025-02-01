@@ -48,6 +48,14 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas:
    TMDB_API_KEY=tu_api_key_de_tmdb
    ```
 
+## Documentación de la API
+
+La documentación interactiva de la API está disponible en la siguiente URL:
+
+http://localhost:{TUPUERTO}/api-docs/
+
+Puedes acceder a esta ruta una vez que la aplicación esté corriendo. La documentación fue generada utilizando Swagger y proporciona información detallada sobre las rutas y cómo interactuar con la API.
+
 ## Comandos
 
 - **Iniciar la aplicación** (compilando TypeScript):
@@ -59,7 +67,7 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas:
 - **Desarrollar con recarga automática**:
 
   ```bash
-  npm run server
+  npm run dev
   ```
 
 - **Compilar el proyecto**:

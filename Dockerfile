@@ -14,6 +14,8 @@ RUN mkdir -p dist
 
 RUN npm run build
 
+RUN npm run copy
+
 EXPOSE 3000
 
 CMD ["node", "dist/server.js"]

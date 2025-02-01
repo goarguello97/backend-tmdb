@@ -17,19 +17,6 @@ class UserController {
       .catch((err) => res.status(400).json(err));
   }
 
-  static async getUser(req: Request, res: Response, next: NextFunction) {
-    const { email } = req.body;
-    User.findOne({
-      where: { email },
-      attributes: { exclude: ["password"] },
-      include: { model: Movie, as: "favorites" },
-    })
-      .then((user) => {
-        res.status(200).json(user);
-      })
-      .catch((err) => res.status(400).json(err));
-  }
-
   static async getUserWithId(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     User.findByPk(id, {
@@ -120,7 +107,7 @@ class UserController {
   }
 
   static async deleteUser(req: AuthRequest, res: Response, next: NextFunction) {
-    const { id } = req.body;
+    const { id } = req.params;
     User.destroy({ where: { id } })
       .then(() => {
         res.status(200).json({ message: "El usuario ha sido eliminado" });
@@ -149,7 +136,7 @@ class UserController {
         include: { model: Movie, as: "favorites" },
       }).then((user) => {
         if (user.favorites.find((e) => e.movieId == movieId)) {
-          res.status(200).json({ message: "Ya se encuentra en favoritos." });
+          res.status(400).json({ message: "Ya se encuentra en favoritos." });
         } else {
           user.addFavorites(movie);
           res
@@ -185,7 +172,7 @@ class UserController {
             .json({ message: "Removida de favoritos satisfactoriamente." });
         } else {
           res
-            .status(200)
+            .status(400)
             .json({ message: "No esta en tu lista de favoritos." });
         }
       });

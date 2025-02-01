@@ -1,0 +1,1344 @@
+openapi: 3.0.1
+info:
+  title: API tmdb
+  contact: {}
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/
+
+tags:
+  - name: user
+    description: Operaciones de usuario
+  - name: peliculas
+    description: Operaciones de películas
+
+paths:
+  /api/users:
+    get:
+      tags:
+        - user
+      summary: Obtiene la lista de usuarios
+      operationId: getUsers
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "c86cef30-383d-49de-bd95-778e309c52b8"
+                    name:
+                      type: string
+                      example: "John"
+                    lastname:
+                      type: string
+                      example: "Doe"
+                    email:
+                      type: string
+                      example: "johndoe@mail.com"
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: "2025-01-30T20:34:34.123Z"
+        "400":
+          description: No se encontraron usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example: []
+
+    post:
+      tags:
+        - user
+      summary: Registra un nuevo usuario
+      description: Esta ruta registra un nuevo usuario con los campos `name`, `lastname`, `email` y `password`.
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - lastname
+                - email
+                - password
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: El nombre del usuario.
+                  example: "Michael"
+                lastname:
+                  type: string
+                  description: El apellido del usuario.
+                  example: "Jordan"
+                email:
+                  type: string
+                  description: El correo electrónico del usuario. Debe ser válido.
+                  example: "michaljordan@mail.com"
+                password:
+                  type: string
+                  description: La contraseña del usuario. Debe cumplir con los requisitos de seguridad (mínimo 8 caracteres, 1 mayúscula, 1 número y 1 carácter especial).
+                  example: "Password123!"
+      responses:
+        "201":
+          description: Usuario registrado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario registrado satisfactoriamente."
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "7ead6e2f-bb02-4b6c-8871-084ff2e7b782"
+                      name:
+                        type: string
+                        example: "Michael"
+                      lastname:
+                        type: string
+                        example: "Jordan"
+                      email:
+                        type: string
+                        example: "michaljordan@mail.com"
+                      password:
+                        type: string
+                        example: "$2b$10$dsCFTaY.KTaijAsFklh59uP45KdyarDuitLtqR.RbW86uJixcCqRq"
+                      createdAt:
+                        type: string
+                        example: "2025-01-30T21:02:15.265Z"
+                      updatedAt:
+                        type: string
+                        example: "2025-01-30T21:02:15.265Z"
+                      moviesId:
+                        type: object
+                        example: null
+        "400":
+          description: Errores de validación. El campo no cumple con los requisitos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errores:
+                    type: integer
+                    example: 8
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: "field"
+                        msg:
+                          type: string
+                          example: "El nombre es requerido."
+                        path:
+                          type: string
+                          example: "name"
+                        location:
+                          type: string
+                          example: "body"
+
+    put:
+      tags:
+        - user
+      summary: Modifica un usuario
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - lastname
+                - email
+                - password
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: El nombre del usuario.
+                  example: "Michael"
+                lastname:
+                  type: string
+                  description: El apellido del usuario.
+                  example: "Jordan"
+                email:
+                  type: string
+                  description: El correo electrónico del usuario. Debe ser válido.
+                  example: "michaljordan@mail.com"
+                password:
+                  type: string
+                  description: La contraseña del usuario. Debe cumplir con los requisitos de seguridad (mínimo 8 caracteres, 1 mayúscula, 1 número y 1 carácter especial).
+                  example: "Password123!"
+      responses:
+        "202":
+          description: Usuario modificado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario modificado satisfactoriamente."
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "7ead6e2f-bb02-4b6c-8871-084ff2e7b782"
+                      name:
+                        type: string
+                        example: "Michael"
+                      lastname:
+                        type: string
+                        example: "Jordan"
+                      email:
+                        type: string
+                        example: "michaljordan@mail.com"
+                      password:
+                        type: string
+                        example: "$2b$10$dsCFTaY.KTaijAsFklh59uP45KdyarDuitLtqR.RbW86uJixcCqRq"
+                      createdAt:
+                        type: string
+                        example: "2025-01-30T21:02:15.265Z"
+                      updatedAt:
+                        type: string
+                        example: "2025-01-30T21:02:15.265Z"
+                      moviesId:
+                        type: object
+                        example: null
+        "404":
+          description: Error
+
+  /api/users/user/{id}:
+    get:
+      tags:
+        - user
+      summary: Busca un usuario por ID
+      operationId: getUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "9ad4e065-d6a9-4ad9-a69b-f6972786ebf8"
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "9ad4e065-d6a9-4ad9-a69b-f6972786ebf8"
+                  name:
+                    type: string
+                    example: "John"
+                  lastname:
+                    type: string
+                    example: "Doe"
+                  email:
+                    type: string
+                    example: "johndoe@mail.com"
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: "2025-01-30T20:34:34.123Z"
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2025-01-30T20:35:27.556Z"
+                  moviesId:
+                    type: array
+                    items:
+                      type: string
+                  favorites:
+                    type: array
+                    items:
+                      type: object
+        "400":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "El usuario no existe."
+
+    delete:
+      tags:
+        - user
+      summary: Elimina un usuario
+      operationId: deleteUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "7ead6e2f-bb02-4b6c-8871-084ff2e7b782"
+
+      responses:
+        "200":
+          description: Usuario eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "El usuario ha sido eliminado"
+        "400":
+          description: Error
+
+  /api/users/login:
+    post:
+      tags:
+        - user
+      summary: Registra un nuevo usuario
+      description: Esta ruta registra un nuevo usuario con los campos `email` y `password`.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: El correo electrónico del usuario. Debe ser válido.
+                  example: "michaljordan@mail.com"
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login exitoso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: "michaljordann@mail.com"
+                      name:
+                        type: string
+                        example: "Michael"
+                      lastname:
+                        type: string
+                        example: "Jordan"
+                      id:
+                        type: string
+                        example: "2a54e5c4-d069-4b88-95fd-7ac52a57fa94"
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoibWljaGFsam9yZGFubkBtYWlsLmNvbSIsIm5hbWUiOiJNaWNoYWVsIiwibGFzdG5hbWUiOiJKb3JkYW4iLCJpZCI6IjJhNTRlNWM0LWQwNjktNGI4OC05NWZkLTdhYzUyYTU3ZmE5NCJ9LCJpYXQiOjE3MzgzNjA4MTEsImV4cCI6MTczODM2MTcxMX0.iSvyI3Ey1VtwFEZAKOpoztKd4REw_ZSxFJfZLu2rNZQ"
+        "401":
+          description: Credenciales invalidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Credenciales inválidas"
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario no encontrado"
+
+  /api/users/secret/{token}:
+    get:
+      tags:
+        - user
+      summary: Para la persistencia
+      description: Consulta si el token aún sigue vigente
+      operationId: secret
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoibWljaGFsam9yZGFubkBtYWlsLmNvbSIsIm5hbWUiOiJNaWNoYWVsIiwibGFzdG5hbWUiOiJKb3JkYW4iLCJpZCI6IjJhNTRlNWM0LWQwNjktNGI4OC05NWZkLTdhYzUyYTU3ZmE5NCJ9LCJpYXQiOjE3MzgzNjE3NjcsImV4cCI6MTczODM2MjY2N30.X56Qsev1g2-brf5wCL65Ob2fJKvJ9zClZTHbqssOkgc"
+      responses:
+        "200":
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "2a54e5c4-d069-4b88-95fd-7ac52a57fa94"
+                      name:
+                        type: string
+                        example: "Michael"
+                      lastname:
+                        type: string
+                        example: "Jordan"
+                      email:
+                        type: string
+                        example: "ichaljordann@mail.com"
+                  iat:
+                    type: number
+                    example: 1738361799
+                  exp:
+                    type: number
+                    example: 1738362699
+        "401":
+          description: Unauthorized
+
+  /api/movies/add:
+    post:
+      tags:
+        - user
+      summary: Agrega pelicula a favoritos
+      description: Esta ruta se utiliza para agregar una pelicula que desees a favoritos
+      operationId: addFav
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - movieId
+                - movieTitle
+                - movieDate
+                - movieGenre
+                - email
+                - typeFilm
+              type: object
+              properties:
+                movieId:
+                  type: number
+                  description: Id de la pelicula o serie
+                  example: 236994
+                movieTitle:
+                  type: string
+                  description: Titulo de la pelicula o serie
+                  example: Dragon Ball Daima
+                movieDate:
+                  type: string
+                  description: Fecha de la pelicula o serie
+                  example: "2024-10-11"
+                movieGenre:
+                  type: array
+                  description: Genero de la pelicula o serie
+                  example: [16, 10759, 35, 10765]
+                email:
+                  type: string
+                  description: Email del usuario
+                  example: "michaljordann@mail.com"
+                typeFilm:
+                  type: string
+                  description: Tipo de film, puede ser movie o tvSerie
+                  example: "tv"
+      responses:
+        "200":
+          description: Pelicula añadida a favoritos exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Agregada a favoritos satisfactoriamente."
+        "400":
+          description: Pelicula no se agrega porque ya se encuentra en la lista
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Ya se encuentra en favoritos."
+
+  /api/movies/remove:
+    post:
+      tags:
+        - user
+      summary: Remueve pelicula a favoritos
+      description: Esta ruta se utiliza para remover una pelicula que desees de favoritos
+      operationId: removeFav
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - movieId
+                - movieTitle
+                - movieDate
+                - movieGenre
+                - email
+                - typeFilm
+              type: object
+              properties:
+                movieId:
+                  type: number
+                  description: Id de la pelicula o serie
+                  example: 236994
+                movieTitle:
+                  type: string
+                  description: Titulo de la pelicula o serie
+                  example: Dragon Ball Daima
+                movieDate:
+                  type: string
+                  description: Fecha de la pelicula o serie
+                  example: "2024-10-11"
+                movieGenre:
+                  type: array
+                  description: Genero de la pelicula o serie
+                  example: [16, 10759, 35, 10765]
+                email:
+                  type: string
+                  description: Email del usuario
+                  example: "michaljordann@mail.com"
+                typeFilm:
+                  type: string
+                  description: Tipo de film, puede ser movie o tvSerie
+                  example: "tv"
+      responses:
+        "200":
+          description: Pelicula removida a favoritos exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Removida de favoritos satisfactoriamente."
+        "400":
+          description: Pelicula no se remueve porque no se encuentra en la lista
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No esta en tu lista de favoritos."
+
+  /api/movies:
+    get:
+      tags:
+        - peliculas
+      summary: Obtiene las peliculas mas populares
+      operationId: getPopular
+      responses:
+        "200":
+          description: Lista de peliculas y series populares
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        adult:
+                          type: boolean
+                          example: false
+                        backdrop_path:
+                          type: string
+                          example: "/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg"
+                        genre_ids:
+                          type: array
+                          example: [28, 878, 35, 10751]
+                        id:
+                          type: number
+                          example: 939243
+                        original_language:
+                          type: string
+                          example: "en"
+                        original_title:
+                          type: string
+                          example: "Sonic the Hedgehog 3"
+                        overview:
+                          type: string
+                          example: "Sonic, Knuckles y Tails se reúnen para enfrentarse a un nuevo y poderoso adversario, Shadow, un misterioso villano cuyos poderes no se parecen a nada de lo que nuestros héroes han conocido hasta ahora. Con sus facultades superadas en todos los sentidos, el Equipo Sonic tendrá que establecer una insólita alianza con la esperanza de detener a Shadow y proteger el planeta."
+                        popularity:
+                          type: number
+                          example: 4393.441
+                        poster_path:
+                          type: string
+                          example: "/3aDWCRXLYOCuxjrjiPfLd79tcI6.jpg"
+                        release_date:
+                          type: string
+                          example: "2024-12-19"
+                        title:
+                          type: string
+                          example: "Sonic 3: La película"
+                        video:
+                          type: boolean
+                          example: false
+                        vote_average:
+                          type: number
+                          example: 7.9
+                        vote_count:
+                          type: number
+                          example: 1302
+                  tvSeries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        adult:
+                          type: boolean
+                          example: false
+                        backdrop_path:
+                          type: string
+                          example: "/cchlQWYrnMPyl1EbjZWCzeAz8l5.jpg"
+                        genre_ids:
+                          type: array
+                          example: [18, 35]
+                        id:
+                          type: number
+                          example: 939243
+                        origin_country:
+                          type: array
+                          example: ["CZ"]
+                        original_language:
+                          type: string
+                          example: "cs"
+                        original_name:
+                          type: string
+                          example: "Ulice"
+                        overview:
+                          type: string
+                          example: ""
+                        popularity:
+                          type: number
+                          example: 2096.626
+                        poster_path:
+                          type: string
+                          example: "/gFEHva8Csx18hMGJJZ6gi4sFSKR.jpg"
+                        first_air_date:
+                          type: string
+                          example: "2005-09-05"
+                        name:
+                          type: string
+                          example: "Ulice"
+                        vote_average:
+                          type: number
+                          example: 4.6
+                        vote_count:
+                          type: number
+                          example: 31
+        "500":
+          description: Error
+
+  /api/movies/movie/{typeFilm}/{id}:
+    get:
+      tags:
+        - peliculas
+      summary: Busca especifica de pelicula o serie
+      operationId: getOne
+      parameters:
+        - in: path
+          name: typeFilm
+          required: true
+          schema:
+            type: string
+            example: "tv o movie"
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+            example: 36361
+
+      responses:
+        "200":
+          description: Encontro exitosamente la pelicula/serie
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  {
+                    "adult": false,
+                    "backdrop_path": "/cchlQWYrnMPyl1EbjZWCzeAz8l5.jpg",
+                    "created_by":
+                      [
+                        {
+                          "id": 1613574,
+                          "credit_id": "6776b1304111599e38130202",
+                          "name": "Radek Bajgar",
+                          "original_name": "Radek Bajgar",
+                          "gender": 2,
+                          "profile_path": null,
+                        },
+                        {
+                          "id": 544310,
+                          "credit_id": "6776b13c4111599e3813020f",
+                          "name": "Dušan Klein",
+                          "original_name": "Dušan Klein",
+                          "gender": 2,
+                          "profile_path": "/rPuwE61Re7MT7GqqtEYjnXjvYkE.jpg",
+                        },
+                        {
+                          "id": 2208391,
+                          "credit_id": "6776b1453fc76ea58892f4a6",
+                          "name": "Petr Erben",
+                          "original_name": "Petr Erben",
+                          "gender": 2,
+                          "profile_path": null,
+                        },
+                      ],
+                    "episode_run_time": [50],
+                    "first_air_date": "2005-09-05",
+                    "genres":
+                      [
+                        { "id": 18, "name": "Drama" },
+                        { "id": 35, "name": "Comedia" },
+                      ],
+                    "homepage": "https://tv.nova.cz/porad/ulice",
+                    "id": 36361,
+                    "in_production": true,
+                    "languages": ["cs"],
+                    "last_air_date": "2025-01-29",
+                    "last_episode_to_air":
+                      {
+                        "id": 5894864,
+                        "name": "Episodio 113",
+                        "overview": "",
+                        "vote_average": 0,
+                        "vote_count": 0,
+                        "air_date": "2025-01-31",
+                        "episode_number": 113,
+                        "episode_type": "standard",
+                        "production_code": "",
+                        "runtime": null,
+                        "season_number": 20,
+                        "show_id": 36361,
+                        "still_path": null,
+                      },
+                    "name": "Ulice",
+                    "next_episode_to_air":
+                      {
+                        "id": 5954332,
+                        "name": "Episodio 114",
+                        "overview": "",
+                        "vote_average": 0,
+                        "vote_count": 0,
+                        "air_date": "2025-02-03",
+                        "episode_number": 114,
+                        "episode_type": "standard",
+                        "production_code": "",
+                        "runtime": null,
+                        "season_number": 20,
+                        "show_id": 36361,
+                        "still_path": null,
+                      },
+                    "networks":
+                      [
+                        {
+                          "id": 711,
+                          "logo_path": "/twuMX6vryssdv8oY01ZD5eNTKLt.png",
+                          "name": "TV Nova",
+                          "origin_country": "CZ",
+                        },
+                        {
+                          "id": 5174,
+                          "logo_path": "/urFAfEj1atKaaI9fMyvsdaaXqfB.png",
+                          "name": "Voyo",
+                          "origin_country": "CZ",
+                        },
+                      ],
+                    "number_of_episodes": 4095,
+                    "number_of_seasons": 20,
+                    "origin_country": ["CZ"],
+                    "original_language": "cs",
+                    "original_name": "Ulice",
+                    "overview": "",
+                    "popularity": 2096.626,
+                    "poster_path": "/gFEHva8Csx18hMGJJZ6gi4sFSKR.jpg",
+                    "production_companies":
+                      [
+                        {
+                          "id": 119646,
+                          "logo_path": null,
+                          "name": "CET 21",
+                          "origin_country": "CZ",
+                        },
+                        {
+                          "id": 31292,
+                          "logo_path": null,
+                          "name": "TV Nova",
+                          "origin_country": "CZ",
+                        },
+                      ],
+                    "production_countries":
+                      [{ "iso_3166_1": "CZ", "name": "Czech Republic" }],
+                    "seasons":
+                      [
+                        {
+                          "air_date": "2005-09-04",
+                          "episode_count": 9,
+                          "id": 319973,
+                          "name": "Especiales",
+                          "overview": "",
+                          "poster_path": null,
+                          "season_number": 0,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2005-09-05",
+                          "episode_count": 214,
+                          "id": 47290,
+                          "name": "Temporada 1",
+                          "overview": "",
+                          "poster_path": "/kOJKYCiBDFGHKrgMXLnahb9UDoP.jpg",
+                          "season_number": 1,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2006-09-01",
+                          "episode_count": 215,
+                          "id": 47291,
+                          "name": "Temporada 2",
+                          "overview": "",
+                          "poster_path": "/s5DFhguD3TJs6jiyDNBhH7LRwJo.jpg",
+                          "season_number": 2,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2007-09-03",
+                          "episode_count": 214,
+                          "id": 47292,
+                          "name": "Temporada 3",
+                          "overview": "",
+                          "poster_path": "/1FHJaert1JNUGnXzTbdQmJgLVcj.jpg",
+                          "season_number": 3,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2008-09-01",
+                          "episode_count": 214,
+                          "id": 104472,
+                          "name": "Temporada 4",
+                          "overview": "",
+                          "poster_path": "/6SKUhTI63zO51DNw06BrwjwQJsK.jpg",
+                          "season_number": 4,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2009-08-31",
+                          "episode_count": 215,
+                          "id": 104473,
+                          "name": "Temporada 5",
+                          "overview": "",
+                          "poster_path": "/4yX2EFkf6tP5qCuKccJ0fPFZdyK.jpg",
+                          "season_number": 5,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2010-08-30",
+                          "episode_count": 205,
+                          "id": 104475,
+                          "name": "Temporada 6",
+                          "overview": "",
+                          "poster_path": "/vbZRwWlnPZRnWigYcePwZi71CS9.jpg",
+                          "season_number": 6,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2011-09-05",
+                          "episode_count": 200,
+                          "id": 104474,
+                          "name": "Temporada 7",
+                          "overview": "",
+                          "poster_path": "/hPeSKc65KlsLdAm3DpTBpkzXXYi.jpg",
+                          "season_number": 7,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2012-08-27",
+                          "episode_count": 210,
+                          "id": 104477,
+                          "name": "Temporada 8",
+                          "overview": "",
+                          "poster_path": "/4lCUIUmtChsHJlkMAQx6NOA1AkE.jpg",
+                          "season_number": 8,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2013-09-02",
+                          "episode_count": 205,
+                          "id": 104476,
+                          "name": "Temporada 9",
+                          "overview": "",
+                          "poster_path": "/asJTTbki5FLkLjcOg6iM1fEsph3.jpg",
+                          "season_number": 9,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2014-08-18",
+                          "episode_count": 215,
+                          "id": 85412,
+                          "name": "Temporada 10",
+                          "overview": "",
+                          "poster_path": "/kIqi39xk6S02Ut4IZsFEuhz9ukF.jpg",
+                          "season_number": 10,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2015-08-24",
+                          "episode_count": 210,
+                          "id": 104478,
+                          "name": "Temporada 11",
+                          "overview": "",
+                          "poster_path": "/vAsy7tRPZYSboStwGkVT3qAOtS.jpg",
+                          "season_number": 11,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2016-08-22",
+                          "episode_count": 215,
+                          "id": 104479,
+                          "name": "Temporada 12",
+                          "overview": "",
+                          "poster_path": "/xEcPzEMy9D9OyW0PUsnORBA8nq4.jpg",
+                          "season_number": 12,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2017-08-21",
+                          "episode_count": 215,
+                          "id": 104480,
+                          "name": "Temporada 13",
+                          "overview": "",
+                          "poster_path": "/pGdAKjEaMPnmVFA4dL1Jteqie3X.jpg",
+                          "season_number": 13,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2018-08-20",
+                          "episode_count": 215,
+                          "id": 109241,
+                          "name": "Temporada 14",
+                          "overview": "",
+                          "poster_path": "/buACNv707IcT1FraZei2ngfI1rl.jpg",
+                          "season_number": 14,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2019-08-19",
+                          "episode_count": 160,
+                          "id": 246215,
+                          "name": "Temporada 15",
+                          "overview": "",
+                          "poster_path": "/l490DFUKvUTwK92k1RsTNBSKUV3.jpg",
+                          "season_number": 15,
+                          "vote_average": 5,
+                        },
+                        {
+                          "air_date": "2020-08-17",
+                          "episode_count": 215,
+                          "id": 246216,
+                          "name": "Temporada 16",
+                          "overview": "",
+                          "poster_path": "/iLb8zSNaFgn7wjKilgsCYjOXsSp.jpg",
+                          "season_number": 16,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2021-08-16",
+                          "episode_count": 215,
+                          "id": 246217,
+                          "name": "Temporada 17",
+                          "overview": "",
+                          "poster_path": "/ylGGvhGxPqFpFwtrOPafcVqQbfq.jpg",
+                          "season_number": 17,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2022-08-15",
+                          "episode_count": 215,
+                          "id": 304082,
+                          "name": "Temporada 18",
+                          "overview": "",
+                          "poster_path": "/kKRTwNDMVIKm6PIBKHrweSDoTbU.jpg",
+                          "season_number": 18,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2023-08-07",
+                          "episode_count": 215,
+                          "id": 351796,
+                          "name": "Temporada 19",
+                          "overview": "",
+                          "poster_path": "/lOc7Zzt9p1MhEUef7t5MlYmSHp6.jpg",
+                          "season_number": 19,
+                          "vote_average": 0,
+                        },
+                        {
+                          "air_date": "2024-08-19",
+                          "episode_count": 150,
+                          "id": 405572,
+                          "name": "Temporada 20",
+                          "overview": "",
+                          "poster_path": "/xYfEGrTqAKNRKOARmvZhh6NNgJO.jpg",
+                          "season_number": 20,
+                          "vote_average": 0,
+                        },
+                      ],
+                    "spoken_languages":
+                      [
+                        {
+                          "english_name": "Czech",
+                          "iso_639_1": "cs",
+                          "name": "Český",
+                        },
+                      ],
+                    "status": "Returning Series",
+                    "tagline": "",
+                    "type": "Scripted",
+                    "vote_average": 4.6,
+                    "vote_count": 31,
+                    "videos": { "results": [] },
+                    "images": { "backdrops": [], "logos": [], "posters": [] },
+                  }
+        "500":
+          description: No se encontro pelicula
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "The resource you requested could not be found."
+
+  /api/movies/search:
+    post:
+      tags:
+        - peliculas
+      summary: Busqueda personalizada de peliculas o series
+      operationId: getSpecific
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - search
+              type: object
+              properties:
+                search:
+                  type: string
+                  description: Busqueda personalizada
+                  example: "Dragon Ball Daima"
+      responses:
+        "200":
+          description: Busqueda exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  {
+                    "movies":
+                      {
+                        "page": 1,
+                        "results":
+                          [
+                            {
+                              "adult": false,
+                              "backdrop_path": "/vDUFwKIpLOxwYKSEq4VUjJ9wcbW.jpg",
+                              "genre_ids": [16, 12, 35],
+                              "id": 1361184,
+                              "original_language": "ja",
+                              "original_title": "Dragon Ball DAIMA",
+                              "overview": "Mysteriously transformed into mini versions of themselves, Goku and his friends travel to the Demon Realm to uncover the truth and find a cure.  The world English dub premiere of Dragon Ball DAIMA, the newest series in the Dragon Ball universe, featuring the first three episodes of the series. Before the film, there will be a special introduction from the Japanese voice of Goku, Masako Nozawa.",
+                              "popularity": 54.588,
+                              "poster_path": "/5h3okzbCgJ9iEGelXoXVh1tlqGi.jpg",
+                              "release_date": "2024-11-10",
+                              "title": "Dragon Ball DAIMA",
+                              "video": true,
+                              "vote_average": 8.2,
+                              "vote_count": 4,
+                            },
+                          ],
+                        "total_pages": 1,
+                        "total_results": 1,
+                      },
+                    "tvSeries":
+                      {
+                        "page": 1,
+                        "results":
+                          [
+                            {
+                              "adult": false,
+                              "backdrop_path": "/oUmWLyeko3kYdUr8DBLIsxwcugl.jpg",
+                              "genre_ids": [16, 10759, 35, 10765],
+                              "id": 236994,
+                              "origin_country": ["JP"],
+                              "original_language": "ja",
+                              "original_name": "ドラゴンボールDAIMA",
+                              "overview": "Misteriosamente transformados en mini versiones de sí mismos, Goku y sus amigos viajan al Reino de los Demonios para descubrir la verdad y encontrar una cura.",
+                              "popularity": 554.519,
+                              "poster_path": "/brd9Bp1MlH8oK2nzR6VV9imY46k.jpg",
+                              "first_air_date": "2024-10-11",
+                              "name": "Dragon Ball Daima",
+                              "vote_average": 8.212,
+                              "vote_count": 299,
+                            },
+                          ],
+                        "total_pages": 1,
+                        "total_results": 1,
+                      },
+                  }
+        "500":
+          description: Error
+
+  /api/movies/comedy:
+    get:
+      tags:
+        - peliculas
+      summary: Obtiene el top de comedias
+      operationId: getComedy
+      responses:
+        "200":
+          description: Lista de peliculas de comedia
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  [
+                    {
+                      "adult": false,
+                      "backdrop_path": "/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
+                      "genre_ids": [28, 878, 35, 10751],
+                      "id": 939243,
+                      "original_language": "en",
+                      "original_title": "Sonic the Hedgehog 3",
+                      "overview": "Sonic, Knuckles y Tails se reúnen para enfrentarse a un nuevo y poderoso adversario, Shadow, un misterioso villano cuyos poderes no se parecen a nada de lo que nuestros héroes han conocido hasta ahora. Con sus facultades superadas en todos los sentidos, el Equipo Sonic tendrá que establecer una insólita alianza con la esperanza de detener a Shadow y proteger el planeta.",
+                      "popularity": 4393.441,
+                      "poster_path": "/3aDWCRXLYOCuxjrjiPfLd79tcI6.jpg",
+                      "release_date": "2024-12-19",
+                      "title": "Sonic 3: La película",
+                      "video": false,
+                      "vote_average": 7.9,
+                      "vote_count": 1309,
+                    },
+                    {
+                      "adult": false,
+                      "backdrop_path": "/vYqt6kb4lcF8wwqsMMaULkP9OEn.jpg",
+                      "genre_ids": [16, 12, 10751, 35, 9648],
+                      "id": 1241982,
+                      "original_language": "en",
+                      "original_title": "Moana 2",
+                      "overview": "Tras recibir una inesperada llamada de sus antepasados, Vaiana debe viajar a los lejanos mares de Oceanía y adentrarse en peligrosas aguas perdidas para vivir una aventura sin precedentes.",
+                      "popularity": 2553.105,
+                      "poster_path": "/wRAT1Udbz4BbsyuRqRByCDQXs8W.jpg",
+                      "release_date": "2024-11-21",
+                      "title": "Vaiana 2",
+                      "video": false,
+                      "vote_average": 7.179,
+                      "vote_count": 1109,
+                    },
+                    {
+                      "adult": false,
+                      "backdrop_path": "/xZm5YUNY3PlYD1Q4k7X8zd2V4AK.jpg",
+                      "genre_ids": [28, 35],
+                      "id": 993710,
+                      "original_language": "en",
+                      "original_title": "Back in Action",
+                      "overview": "Emily y Matt renunciaron hace años a ser espías de la CIA para formar una familia. Pero, cuando se descubre su tapadera, se ven arrastrados de nuevo al mundo del espionaje.",
+                      "popularity": 2068.604,
+                      "poster_path": "/mAvyQ2X3767LwXE2htvAd22ucd3.jpg",
+                      "release_date": "2025-01-15",
+                      "title": "De vuelta a la acción",
+                      "video": false,
+                      "vote_average": 6.655,
+                      "vote_count": 654,
+                    },
+                  ]
+        "500":
+          description: Error
+
+  /api/movies/horror:
+    get:
+      tags:
+        - peliculas
+      summary: Obtiene el top de terror
+      operationId: getHorror
+      responses:
+        "200":
+          description: Lista de peliculas de terror
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  [
+                    {
+                      "adult": false,
+                      "backdrop_path": "/h7r6LZ32dgLwtwSW3CxoWIYD9pr.jpg",
+                      "genre_ids": [27, 14],
+                      "id": 426063,
+                      "original_language": "en",
+                      "original_title": "Nosferatu",
+                      "overview": "Historia gótica de obsesión entre una joven hechizada y el aterrador vampiro encaprichado de ella que causa un indescriptible terror a su paso.",
+                      "popularity": 1457.817,
+                      "poster_path": "/jivUhECegXI3OYtPVflWoIDtENt.jpg",
+                      "release_date": "2024-12-25",
+                      "title": "Nosferatu",
+                      "video": false,
+                      "vote_average": 6.606,
+                      "vote_count": 1729,
+                    },
+                    {
+                      "adult": false,
+                      "backdrop_path": "/7h6TqPB3ESmjuVbxCxAeB1c9OB1.jpg",
+                      "genre_ids": [27, 878],
+                      "id": 933260,
+                      "original_language": "en",
+                      "original_title": "The Substance",
+                      "overview": '"Tú, pero mejor en todos los sentidos". Esa es la promesa de la sustancia, un producto revolucionario basado en la división celular, que crea un alter ego más joven, más bello, más perfecto.',
+                      "popularity": 938.901,
+                      "poster_path": "/w1PiIqM89r4AM7CiMEP4VLCEFUn.jpg",
+                      "release_date": "2024-09-07",
+                      "title": "La sustancia",
+                      "video": false,
+                      "vote_average": 7.143,
+                      "vote_count": 3523,
+                    },
+                    {
+                      "adult": false,
+                      "backdrop_path": "/cA88pwGnHa64BBcU3R1oCcJH9Qc.jpg",
+                      "genre_ids": [28, 27, 53],
+                      "id": 970450,
+                      "original_language": "en",
+                      "original_title": "Werewolves",
+                      "overview": "Dos científicos intentan detener una mutación que convierte en hombres lobo a personas que estuvieron expuestas a una superluna el año anterior.",
+                      "popularity": 878.712,
+                      "poster_path": "/jsfD5FoS85glIyGudwd1q7Gg97.jpg",
+                      "release_date": "2024-12-04",
+                      "title": "El despertar de la bestia",
+                      "video": false,
+                      "vote_average": 6.2,
+                      "vote_count": 248,
+                    },
+                  ]
+        "500":
+          description: Error
+
+  /api/movies/drama:
+    get:
+      tags:
+        - peliculas
+      summary: Obtiene el top de drama
+      operationId: getDrama
+      responses:
+        "200":
+          description: Lista de peliculas de drama
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                  [
+                    {
+                      "adult": false,
+                      "backdrop_path": "/hAQnXxOwCjgYcKRgTdYPRC8neqL.jpg",
+                      "genre_ids": [28, 18],
+                      "id": 811941,
+                      "original_language": "te",
+                      "original_title": "దేవర: Part 1",
+                      "overview": "Un intrépido hombre llamado Devara se aventura en el traicionero mundo del mar para proteger la vida de su pueblo. Ignorante de la conspiración de su hermano Bhaira, acaba transmitiendo su legado a su apacible hijo Varada.",
+                      "popularity": 1017.92,
+                      "poster_path": "/q9e5viGsiNXMpEKtr8KrL4rQmVW.jpg",
+                      "release_date": "2024-09-26",
+                      "title": "Devara: Parte 1",
+                      "video": false,
+                      "vote_average": 7,
+                      "vote_count": 65,
+                    },
+                    {
+                      "adult": false,
+                      "backdrop_path": "/hctfNoMpQGfn3VXdBYb9p0P5bT5.jpg",
+                      "genre_ids": [18],
+                      "id": 1097549,
+                      "original_language": "en",
+                      "original_title": "Babygirl",
+                      "overview": "Una alta ejecutiva pone en peligro su carrera y su familia cuando inicia un tórrido romance con su becario, mucho más joven que ella.",
+                      "popularity": 986.535,
+                      "poster_path": "/fCCZlnzf6yEGGO9UEdVADRVvfhM.jpg",
+                      "release_date": "2024-12-25",
+                      "title": "Babygirl",
+                      "video": false,
+                      "vote_average": 5.7,
+                      "vote_count": 233,
+                    },
+                    {
+                      "adult": false,
+                      "backdrop_path": "/euYIwmwkmz95mnXvufEmbL6ovhZ.jpg",
+                      "genre_ids": [28, 12, 18],
+                      "id": 558449,
+                      "original_language": "en",
+                      "original_title": "Gladiator II",
+                      "overview": "Dieciséis años después de la muerte de Marco Aurelio, Roma está gobernada por los despiadados emperadores gemelos Geta y Caracalla. El nieto de Aurelio, Lucio Vero, vive bajo el seudónimo de Hanno con su esposa Arishat en el reino norteafricano de Numidia. El ejército romano dirigido por el general Acacio invade y conquista el reino, esclavizando a Lucio junto con otros supervivientes. Los esclavos son llevados a Ostia, donde Lucio es comprado por el maestro de cuadra Macrinus, que le promete la oportunidad de vengarse matando a Acacio si gana suficientes combates para llegar al Coliseo.",
+                      "popularity": 960.24,
+                      "poster_path": "/fbcs5AxrdXwyj1b8bGGMgC9kXrM.jpg",
+                      "release_date": "2024-11-05",
+                      "title": "Gladiator II",
+                      "video": false,
+                      "vote_average": 6.751,
+                      "vote_count": 2589,
+                    },
+                  ]
+        "500":
+          description: Error
