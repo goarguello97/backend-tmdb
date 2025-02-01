@@ -56,6 +56,12 @@ http://localhost:{TUPUERTO}/api-docs/
 
 Puedes acceder a esta ruta una vez que la aplicación esté corriendo. La documentación fue generada utilizando Swagger y proporciona información detallada sobre las rutas y cómo interactuar con la API.
 
+- **Iniciar la aplicación en desarrollo**:
+
+```bash
+  npm run dev
+```
+
 ## Comandos
 
 - **Iniciar la aplicación** (compilando TypeScript):
@@ -74,11 +80,6 @@ Puedes acceder a esta ruta una vez que la aplicación esté corriendo. La docume
 
   ```bash
   npm run build
-  ```
-
-- **Ejecutar las pruebas**:
-  ```bash
-  npm test
   ```
 
 ## Levantar la app con Docker
