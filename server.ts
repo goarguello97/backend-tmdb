@@ -10,6 +10,7 @@ import routes from "./routes/index.routes";
 import { swaggerOptions } from "./swaggerCofig";
 
 const PORT = process.env.PORT || 3001;
+const ORIGIN = process.env.ORIGIN
 
 const corsOptions = {
   origin: true,
