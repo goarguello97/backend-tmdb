@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 3001;
 const ORIGIN = process.env.ORIGIN;
 
 const corsOptions = {
-  origin: ORIGIN,
+  origin: function (origin, callback) {
+    callback(null, true);
+  },
   optionsSuccessStatus: 200,
   credentials: true,
 };
